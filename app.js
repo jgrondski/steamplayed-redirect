@@ -41,7 +41,6 @@ router.get('/sam', (req, res) => {
 router.get('/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
   (res) => {
-    console.log('auth/steam...')
     res.redirect('/');
   });
 
@@ -53,7 +52,6 @@ router.get('/steam',
 router.get('/steam/return',
   // Issue #37 - Workaround for Express router module stripping the full url, causing assertion to fail 
   (req, res, next) => {
-      console.log('auth/steam/return...')
       req.url = req.originalUrl;
       next();
   }, 
@@ -61,7 +59,7 @@ router.get('/steam/return',
     (req, res) => {
         console.log('auth/steam/return authenticate callback...');
         console.log(req.user.id);
-        res.redirect('http://localhost:3000/userid/' + req.user.id);
+        res.redirect('http://steamplayed.com/userid/' + req.user.id);
     }
 );
 
@@ -82,8 +80,8 @@ passport.serializeUser((user, done) => {
 //   callback with a user object.
 passport.use(new SteamStrategy({
     providerUrl: 'https://cors-anywhere.herokuapp.com/https://steamcommunity.com/openid',
-    returnURL: 'http://localhost:3001/auth/steam/return',
-    realm: 'http://localhost:3001/',
+    returnURL: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/prod/auth/steam/return',
+    realm: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/',
     apiKey: '7813876CA4146DF8758A701FAF9C9A99'
   },
   (identifier, profile, done) => {
