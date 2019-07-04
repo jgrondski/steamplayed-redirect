@@ -59,7 +59,8 @@ router.get('/steam/return',
     (req, res) => {
         console.log('auth/steam/return authenticate callback...');
         console.log(req.user.id);
-        res.redirect('http://steamplayed.com/userid/' + req.user.id);
+        res.redirect('http://localhost:3000/userid/' + req.user.id);
+        // res.redirect('http://steamplayed.com/userid/' + req.user.id);
     }
 );
 
@@ -80,8 +81,10 @@ passport.serializeUser((user, done) => {
 //   callback with a user object.
 passport.use(new SteamStrategy({
     providerUrl: 'https://cors-anywhere.herokuapp.com/https://steamcommunity.com/openid',
-    returnURL: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/prod/auth/steam/return',
-    realm: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/',
+    // returnURL: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/prod/auth/steam/return',
+    returnURL: 'http://localhost:3001/auth/steam/return',
+    // realm: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/',
+    realm: 'http://localhost:3001/',
     apiKey: '7813876CA4146DF8758A701FAF9C9A99'
   },
   (identifier, profile, done) => {
