@@ -1,17 +1,17 @@
 {
-  "name": "aws-serverless-express-example",
-  "version": "2.1.1",
-  "description": "Example application for running a Node Express app on AWS Lambda using Amazon API Gateway.",
+  "name": "steamplayed-redirect-aws-serverless",
+  "version": "0.1.0",
+  "description": "Redirect microservice for logging into steam using OpenID Passport as a Node Express app on AWS Lambda.",
   "main": "lambda.js",
   "config": {
     "s3BucketName": "redirect.steamplayed.com",
     "region": "us-east-1",
     "cloudFormationStackName": "AwsServerlessExpressStack",
     "functionName": "SteamPlayedRedirectFunction",
-    "accountId": "835963302541"
+    "accountId": "Your AWS Account ID"
   },
   "scripts": {
-    "start": "node -r dotenv/config app.local.js",
+    "start": "node app.local.js",
     "config": "node ./scripts/configure.js",
     "deconfig": "node ./scripts/deconfigure.js",
     "local": "node scripts/local",

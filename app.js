@@ -1,5 +1,4 @@
 'use strict'
-const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -9,6 +8,7 @@ const app = express()
 const router = express.Router()
 const passport = require('passport');
 const SteamStrategy = require('passport-steam');
+const { apiKey, returnUrl, realm, providerUrl, clientUrl } = require('./scripts/envconfig');
 
 if (process.env.NODE_ENV === 'test') {
   // NOTE: aws-serverless-express uses this app for its integration tests
@@ -59,8 +59,7 @@ router.get('/steam/return',
     (req, res) => {
         console.log('auth/steam/return authenticate callback...');
         console.log(req.user.id);
-        res.redirect('http://localhost:3000/userid/' + req.user.id);
-        // res.redirect('http://steamplayed.com/userid/' + req.user.id);
+        res.redirect(`${clientUrl}/userid/${req.user.id}`);
     }
 );
 
@@ -80,12 +79,10 @@ passport.serializeUser((user, done) => {
 //   credentials (in this case, an OpenID identifier and profile), and invoke a
 //   callback with a user object.
 passport.use(new SteamStrategy({
-    providerUrl: 'https://cors-anywhere.herokuapp.com/https://steamcommunity.com/openid',
-    // returnURL: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/prod/auth/steam/return',
-    returnURL: 'http://localhost:3001/auth/steam/return',
-    // realm: 'https://yy4hykl3ti.execute-api.us-east-1.amazonaws.com/',
-    realm: 'http://localhost:3001/',
-    apiKey: '7813876CA4146DF8758A701FAF9C9A99'
+    providerUrl: providerUrl,
+    returnURL: returnUrl,
+    realm: realm,
+    apiKey: apiKey
   },
   (identifier, profile, done) => {
     console.log('passport.use...')
